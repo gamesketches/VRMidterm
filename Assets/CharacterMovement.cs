@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.VR;
 
 public class CharacterMovement : MonoBehaviour {
 
@@ -10,6 +11,8 @@ public class CharacterMovement : MonoBehaviour {
 	CharacterController controller;
 	// Use this for initialization
 	void Start () {
+
+		VRSettings.renderScale = 0.3f;
 		controller = GetComponent<CharacterController>();
 		rightBlinder.enabled = false;
 		leftBlinder.enabled = false;
