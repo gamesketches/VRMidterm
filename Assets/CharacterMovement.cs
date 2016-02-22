@@ -9,6 +9,7 @@ public class CharacterMovement : MonoBehaviour {
 	public Canvas rightBlinder;
 	public Canvas leftBlinder;
 	CharacterController controller;
+	private Camera mainEye;
 	// Use this for initialization
 	void Start () {
 
@@ -16,6 +17,7 @@ public class CharacterMovement : MonoBehaviour {
 		controller = GetComponent<CharacterController>();
 		rightBlinder.enabled = false;
 		leftBlinder.enabled = false;
+		mainEye = leftEye.GetComponentInChildren<Camera>();
 	}
 	
 	// Update is called once per frame
@@ -23,7 +25,7 @@ public class CharacterMovement : MonoBehaviour {
 		float hori = Input.GetAxis("Horizontal");
 		float vert = Input.GetAxis("Vertical");
 
-		controller.Move(transform.forward * vert + Physics.gravity);
+		controller.Move(mainEye.transform.forward * vert * Time.deltaTime * 10.0f + Physics.gravity);
 		transform.Rotate(0f, hori * 2f, 0f);
 
 		if(Input.GetKeyDown(KeyCode.Space) == true && rightEye.transform.parent == null) {
