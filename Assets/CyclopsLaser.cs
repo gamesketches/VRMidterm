@@ -16,7 +16,9 @@ public class CyclopsLaser : MonoBehaviour {
 
 		if(Physics.Raycast(PsychicRay, out hit, 40f)){
 			if(hit.collider.tag == "button"){
-				targetDoor.GetComponentInChildren<UnlockDoor>().OpenSesame();
+				Debug.Log(hit.collider.gameObject.GetComponent<TargetDoor>().targetDoor);
+				hit.collider.gameObject.GetComponentInChildren<TargetDoor>().unlockDoor();//GetComponentInChildren<UnlockDoor>().OpenSesame();
+				//targetDoor.GetComponentInChildren<UnlockDoor>().OpenSesame();
 			}
 		}
 		Debug.DrawRay(transform.position, transform.forward * 100f);
