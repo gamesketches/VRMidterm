@@ -7,6 +7,8 @@ public class EyeballMovement : MonoBehaviour {
 	public Vector3 startPos;
 	public float eyeDropSpeed;
 	private Canvas rightBlinder;
+	delegate void SocketFunction();
+	private SocketFunction socketingFunction;
 	// Use this for initialization
 	void Start () {
 		conveyorBelt = false;
@@ -24,10 +26,14 @@ public class EyeballMovement : MonoBehaviour {
 	}
 
 	public void dropEye(Vector3 targetPos) {
-		StartCoroutine(eyeMovement(targetPos));
+		StartCoroutine(eyeMovement(targetPos, leaveSocket));
 	}
 
-	IEnumerator eyeMovement(Vector3 targetPos) {
+	public void pickupEye(Vector3 targetPos) {
+		StartCoroutine(eyeMovement(targetPos, returnToSocket));
+	}
+
+	public IEnumerator detachEye(Vector3 targetPos) {
 		Vector3 startPos = transform.position;
 		float t = 0f;
 		while(t <= 1.0f) {
@@ -37,8 +43,44 @@ public class EyeballMovement : MonoBehaviour {
 		}
 		transform.rotation = Quaternion.Euler(0, 270, 0);
 		transform.parent = null;
-		GetComponent<EyeballMovement>().conveyorBelt = true;
+		conveyorBelt = true;
 		rightBlinder.enabled = true;
+	}
+
+	public IEnumerator reattachEye() {
+		conveyorBelt = false;
+		transform.localRotation = Quaternion.Euler(Vector3.forward);
+		rightBlinder.enabled = false;
+		Vector3 initialPos = transform.localPosition;
+		float t = 0f;
+		while(t <= 1.0f) {
+			transform.localPosition = Vector3.Lerp(initialPos, startPos, t);
+			t += Time.deltaTime/eyeDropSpeed;
+			yield return null;
+		}
+	}
+
+	IEnumerator eyeMovement(Vector3 targetPos, SocketFunction socketFunction) {
+		Vector3 startPos = transform.position;
+		float t = 0f;
+		while(t <= 1.0f) {
+			transform.position = Vector3.Lerp(startPos, targetPos, t);
+			t += Time.deltaTime/eyeDropSpeed;
+			yield return null;
+		}
+		socketFunction();
+	}
+
+	void leaveSocket() {
+		transform.rotation = Quaternion.Euler(0, 270, 0);
+		transform.parent = null;
+		conveyorBelt = true;
+		rightBlinder.enabled = true;
+	}
+
+	void returnToSocket() {
+		transform.localRotation = Quaternion.Euler(Vector3.forward);
+		rightBlinder.enabled = false;
 	}
 
 }

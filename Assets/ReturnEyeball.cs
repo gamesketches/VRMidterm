@@ -14,7 +14,6 @@ public class ReturnEyeball : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		if(other.gameObject == movingEye) {
 			other.gameObject.transform.SetParent(player.transform);
-			//other.gameObject.GetComponent<CharacterMovement>().dropEye(Vector3())
 			movingEye.GetComponent<EyeballMovement>().conveyorBelt = false;
 			Debug.Log(other.gameObject.transform.parent);			
 		}
@@ -26,10 +25,9 @@ public class ReturnEyeball : MonoBehaviour {
 	void OnTriggerStay(Collider other) {
 		if(Input.GetKeyDown(KeyCode.E)) {
 			Debug.Log("Returning");
+			other.gameObject.transform.SetParent(player.transform);
 			EyeballMovement buddy = other.gameObject.GetComponent<EyeballMovement>();
-			Vector3 returnPos = buddy.startPos;
-			buddy.dropEye(returnPos);
-			//player.GetComponent<CharacterMovement>().dropEye(returnPos);
+			StartCoroutine(buddy.reattachEye());
 		}
 	}
 }
