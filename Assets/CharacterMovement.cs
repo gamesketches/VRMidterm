@@ -8,6 +8,7 @@ public class CharacterMovement : MonoBehaviour {
 	public GameObject leftEye;
 	public Canvas rightBlinder;
 	public Canvas leftBlinder;
+	public float eyeDropSpeed;
 	CharacterController controller;
 	private Camera mainEye;
 	// Use this for initialization
@@ -36,9 +37,20 @@ public class CharacterMovement : MonoBehaviour {
 	}
 
 	public void dropEye(Vector3 targetPos) {
-		rightEye.transform.position = targetPos;
+		StartCoroutine(eyeMovement(targetPos));
+	}
+
+	IEnumerator eyeMovement(Vector3 targetPos) {
+		Vector3 startPos = rightEye.transform.position;
+		float t = 0f;
+		while(t <= 1.0f) {
+			rightEye.transform.position = Vector3.Lerp(startPos, targetPos, t);
+			t += Time.deltaTime/eyeDropSpeed;
+			yield return null;
+		}
 		rightEye.transform.rotation = Quaternion.Euler(0, 270, 0);
 		rightEye.transform.parent = null;
+		rightEye.GetComponent<EyeballMovement>().conveyorBelt = true;
 		rightBlinder.enabled = true;
 	}
 }
