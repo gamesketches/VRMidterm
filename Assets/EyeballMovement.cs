@@ -25,17 +25,19 @@ public class EyeballMovement : MonoBehaviour {
 	}
 
 	public IEnumerator detachEye(Vector3 targetPos) {
-		Vector3 startPos = transform.position;
-		float t = 0f;
-		while(t <= 1.0f) {
-			transform.position = Vector3.Lerp(startPos, targetPos, t);
-			t += Time.deltaTime/eyeDropSpeed;
-			yield return null;
+		if(!conveyorBelt) {			
+			Vector3 startPos = transform.position;
+			float t = 0f;
+			while(t <= 1.0f) {
+				transform.position = Vector3.Lerp(startPos, targetPos, t);
+				t += Time.deltaTime/eyeDropSpeed;
+				yield return null;
+			}
+			transform.rotation = Quaternion.Euler(0, 270, 0);
+			transform.parent = null;
+			conveyorBelt = true;
+			rightBlinder.enabled = true;
 		}
-		transform.rotation = Quaternion.Euler(0, 270, 0);
-		transform.parent = null;
-		conveyorBelt = true;
-		rightBlinder.enabled = true;
 	}
 
 	public IEnumerator reattachEye() {
