@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class EyeballMovement : MonoBehaviour {
 
@@ -27,30 +28,38 @@ public class EyeballMovement : MonoBehaviour {
 	public IEnumerator detachEye(Vector3 targetPos) {
 		if(!conveyorBelt) {			
 			Vector3 startPos = transform.position;
+			Image blinder = rightBlinder.GetComponentInChildren<Image>();
+			Color blinderColor = blinder.color;
+			Color targetColor = new Color(blinderColor.r, blinderColor.g, blinderColor.b, 1.0f);
+			rightBlinder.enabled = true;
 			float t = 0f;
 			while(t <= 1.0f) {
 				transform.position = Vector3.Lerp(startPos, targetPos, t);
+				blinder.color = Color.Lerp(blinderColor, targetColor, t * 3);
 				t += Time.deltaTime/eyeDropSpeed;
 				yield return null;
 			}
 			transform.rotation = Quaternion.Euler(0, 270, 0);
 			transform.parent = null;
 			conveyorBelt = true;
-			rightBlinder.enabled = true;
 		}
 	}
 
 	public IEnumerator reattachEye() {
 		conveyorBelt = false;
 		transform.localRotation = Quaternion.Euler(Vector3.forward);
-		rightBlinder.enabled = false;
+		Image blinder = rightBlinder.GetComponentInChildren<Image>();
+		Color blinderColor = blinder.color;
+		Color targetColor = new Color(blinderColor.r, blinderColor.g, blinderColor.b, 0.5f);
 		Vector3 initialPos = transform.localPosition;
 		float t = 0f;
 		while(t <= 1.0f) {
 			transform.localPosition = Vector3.Lerp(initialPos, startPos, t);
+			blinder.color = Color.Lerp(blinderColor, targetColor, t);
 			t += Time.deltaTime/eyeDropSpeed;
 			yield return null;
 		}
+		rightBlinder.enabled = false;
 	}
 
 }

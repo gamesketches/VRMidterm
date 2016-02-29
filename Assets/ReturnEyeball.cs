@@ -13,7 +13,7 @@ public class ReturnEyeball : MonoBehaviour {
 	// Update is called once per frame
 	void OnTriggerEnter(Collider other) {
 		if(other.gameObject == movingEye) {
-			other.gameObject.transform.SetParent(player.transform);
+			//other.gameObject.transform.SetParent(player.transform);
 			movingEye.GetComponent<EyeballMovement>().conveyorBelt = false;
 			Debug.Log(other.gameObject.transform.parent);			
 		}
