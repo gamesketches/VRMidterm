@@ -7,6 +7,9 @@ public class TargetDoor : MonoBehaviour {
 	public bool unlocking;
 
 	public void doorAction() {
+
+		Debug.Log("Unlocking");
+		gameObject.GetComponent<Renderer>().material.color = Color.blue;
 		if(unlocking) {
 			unlockDoor();
 		}
