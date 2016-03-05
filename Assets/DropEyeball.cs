@@ -11,7 +11,7 @@ public class DropEyeball : MonoBehaviour {
 	void OnTriggerEnter(Collider other) {
 		other.gameObject.GetComponentInChildren<EyeballMovement>().setVelocity(conveyorBeltDirection);
 		if(chainedBelt) {
-			eyeballLogic = other.gameObject.GetComponentInChildren<EyeballMovement>();//other.gameObject.GetComponentInChildren<EyeballMovement>().conveyorBelt = true;
+			eyeballLogic = other.gameObject.GetComponentInChildren<EyeballMovement>();
 		}
 	}
 

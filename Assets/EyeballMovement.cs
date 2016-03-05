@@ -20,7 +20,7 @@ public class EyeballMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if(conveyorBelt) {
-			Vector3 newPos = transform.position - (currentVelocity * Time.deltaTime);//new Vector3(transform.position.x, transform.position.y, transform.position.z - (1 * Time.deltaTime));
+			Vector3 newPos = transform.position - (currentVelocity * Time.deltaTime);
 			transform.position = newPos;
 			Debug.Log(currentVelocity);
 		}
@@ -31,7 +31,10 @@ public class EyeballMovement : MonoBehaviour {
 	}
 
 	public IEnumerator detachEye(Vector3 targetPos, Vector3 targetDir) {
-		if(!conveyorBelt) {			
+		if(!conveyorBelt) {
+			foreach(GameObject eyeball in GameObject.FindGameObjectsWithTag("eyeball")) {
+				eyeball.GetComponent<Renderer>().enabled = true;
+			}
 			Vector3 startPos = transform.position;
 			Image blinder = rightBlinder.GetComponentInChildren<Image>();
 			Color blinderColor = blinder.color;
@@ -66,6 +69,9 @@ public class EyeballMovement : MonoBehaviour {
 			yield return null;
 		}
 		rightBlinder.enabled = false;
+		foreach(GameObject eyeball in GameObject.FindGameObjectsWithTag("eyeball")) {
+			eyeball.GetComponent<Renderer>().enabled = false;
+		}
 	}
 
 	public void setVelocity(Vector3 newVelocity) {

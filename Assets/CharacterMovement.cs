@@ -18,6 +18,8 @@ public class CharacterMovement : MonoBehaviour {
 		rightBlinder.enabled = false;
 		leftBlinder.enabled = false;
 		mainEye = leftEye.GetComponentInChildren<Camera>();
+		leftEye.GetComponent<Renderer>().enabled = false;
+		rightEye.GetComponent<Renderer>().enabled = false;
 	}
 	
 	// Update is called once per frame
