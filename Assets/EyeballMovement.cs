@@ -8,24 +8,29 @@ public class EyeballMovement : MonoBehaviour {
 	public Vector3 startPos;
 	public float eyeDropSpeed;
 	private Canvas rightBlinder;
+	private Vector3 currentVelocity;
 	delegate void SocketFunction();
 	// Use this for initialization
 	void Start () {
 		conveyorBelt = false;
 		startPos = transform.localPosition;
 		rightBlinder = GetComponentInChildren<Canvas>();
-		Debug.Log(startPos);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if(conveyorBelt) {
-			Vector3 newPos = new Vector3(transform.position.x, transform.position.y, transform.position.z - (1 * Time.deltaTime));
+			Vector3 newPos = transform.position - (currentVelocity * Time.deltaTime);//new Vector3(transform.position.x, transform.position.y, transform.position.z - (1 * Time.deltaTime));
 			transform.position = newPos;
+			Debug.Log(currentVelocity);
+		}
+		else if(Input.GetKeyDown(KeyCode.E) && transform.parent == null) {
+			transform.SetParent(GameObject.FindGameObjectWithTag("Player").transform);
+			StartCoroutine(reattachEye());
 		}
 	}
 
-	public IEnumerator detachEye(Vector3 targetPos) {
+	public IEnumerator detachEye(Vector3 targetPos, Vector3 targetDir) {
 		if(!conveyorBelt) {			
 			Vector3 startPos = transform.position;
 			Image blinder = rightBlinder.GetComponentInChildren<Image>();
@@ -42,6 +47,7 @@ public class EyeballMovement : MonoBehaviour {
 			transform.rotation = Quaternion.Euler(0, 270, 0);
 			transform.parent = null;
 			conveyorBelt = true;
+			currentVelocity = targetDir;
 		}
 	}
 
@@ -62,4 +68,7 @@ public class EyeballMovement : MonoBehaviour {
 		rightBlinder.enabled = false;
 	}
 
+	public void setVelocity(Vector3 newVelocity) {
+		currentVelocity = newVelocity;
+	}
 }
