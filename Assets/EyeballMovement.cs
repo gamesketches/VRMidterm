@@ -56,6 +56,13 @@ public class EyeballMovement : MonoBehaviour {
 
 	public IEnumerator reattachEye() {
 		conveyorBelt = false;
+		if(!rightBlinder.enabled) {
+			rightBlinder.enabled = true;
+			GameObject leftEye = GameObject.Find("LeftEye");
+			if(leftEye.GetComponentInChildren<Canvas>().enabled) {
+				leftEye.GetComponentInChildren<Canvas>().enabled = false;
+			}
+		}
 		transform.localRotation = Quaternion.Euler(Vector3.forward);
 		Image blinder = rightBlinder.GetComponentInChildren<Image>();
 		Color blinderColor = blinder.color;
