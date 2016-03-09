@@ -37,6 +37,10 @@ public class CharacterMovement : MonoBehaviour {
 			rightBlinder.GetComponentInChildren<Text>().enabled = false;
 
 		}
+
+		if ( Input.GetKeyDown(KeyCode.R) ) { // let user recenter camera if they want to
+			InputTracking.Recenter();
+		}
 	}
 		
 }
