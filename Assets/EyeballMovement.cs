@@ -10,6 +10,7 @@ public class EyeballMovement : MonoBehaviour {
 	private Canvas rightBlinder;
 	private Vector3 currentVelocity;
 	delegate void SocketFunction();
+	private int spaceFrames;
 	// Use this for initialization
 	void Start () {
 		conveyorBelt = false;
@@ -24,9 +25,17 @@ public class EyeballMovement : MonoBehaviour {
 			transform.position = newPos;
 			Debug.Log(currentVelocity);
 		}
-		else if(Input.GetKeyDown(KeyCode.E) && transform.parent == null) {
-			transform.SetParent(GameObject.FindGameObjectWithTag("Player").transform);
-			StartCoroutine(reattachEye());
+		else if(Input.GetKey(KeyCode.Space) && transform.parent == null) {
+			spaceFrames++;
+			Debug.Log(spaceFrames);
+			if(spaceFrames > 70) {
+				transform.SetParent(GameObject.FindGameObjectWithTag("Player").transform);
+				StartCoroutine(reattachEye());
+			}
+		}
+		else {
+			Debug.Log("reseting eyeballMovement spaceFrames");
+			spaceFrames = 0;
 		}
 	}
 
