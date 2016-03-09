@@ -43,7 +43,6 @@ public class EyeballMovement : MonoBehaviour {
 		if(!conveyorBelt) {
 			foreach(GameObject eyeball in GameObject.FindGameObjectsWithTag("eyeball")) {
 				eyeball.GetComponent<Renderer>().enabled = true;
-				Debug.Log("renderer on");
 			}
 			Vector3 startPos = transform.position;
 			Image blinder = rightBlinder.GetComponentInChildren<Image>();

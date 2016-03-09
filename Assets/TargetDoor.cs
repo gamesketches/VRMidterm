@@ -14,7 +14,7 @@ public class TargetDoor : MonoBehaviour {
 			unlockDoor();
 		}
 		else {
-			lockDoor();
+			Debug.Log("PROGRAMMING");
 		}
 	}
 	public void unlockDoor() {
