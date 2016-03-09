@@ -11,6 +11,7 @@ public class EyeballMovement : MonoBehaviour {
 	private Vector3 currentVelocity;
 	delegate void SocketFunction();
 	private int spaceFrames;
+	public AudioSource eyeballSound;
 	// Use this for initialization
 	void Start () {
 		conveyorBelt = false;
@@ -41,6 +42,7 @@ public class EyeballMovement : MonoBehaviour {
 
 	public IEnumerator detachEye(Vector3 targetPos, Vector3 targetDir) {
 		if(!conveyorBelt && gameObject.transform.parent != null) {
+			if(!eyeballSound.isPlaying){eyeballSound.Play(); }
 			foreach(GameObject eyeball in GameObject.FindGameObjectsWithTag("eyeball")) {
 				eyeball.GetComponent<Renderer>().enabled = true;
 			}
@@ -65,6 +67,7 @@ public class EyeballMovement : MonoBehaviour {
 
 	public IEnumerator reattachEye() {
 		conveyorBelt = false;
+		eyeballSound.Play();
 		if(!rightBlinder.enabled) {
 			rightBlinder.enabled = true;
 			GameObject leftEye = GameObject.Find("LeftEye");
