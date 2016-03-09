@@ -40,7 +40,7 @@ public class EyeballMovement : MonoBehaviour {
 	}
 
 	public IEnumerator detachEye(Vector3 targetPos, Vector3 targetDir) {
-		if(!conveyorBelt) {
+		if(!conveyorBelt && gameObject.transform.parent != null) {
 			foreach(GameObject eyeball in GameObject.FindGameObjectsWithTag("eyeball")) {
 				eyeball.GetComponent<Renderer>().enabled = true;
 			}
