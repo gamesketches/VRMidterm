@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.VR;
+using UnityEngine.UI;
 
 public class CharacterMovement : MonoBehaviour {
 
@@ -33,6 +34,7 @@ public class CharacterMovement : MonoBehaviour {
 		if(Input.GetKeyDown(KeyCode.Space) == true && rightEye.transform.parent == null) {
 			leftBlinder.enabled = !leftBlinder.enabled;
 			rightBlinder.enabled = !rightBlinder.enabled;
+			rightBlinder.GetComponentInChildren<Text>().enabled = false;
 
 		}
 	}
