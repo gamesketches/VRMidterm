@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.VR;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterMovement : MonoBehaviour {
 
@@ -29,17 +30,23 @@ public class CharacterMovement : MonoBehaviour {
 		float vert = Input.GetAxis("Vertical");
 
 		controller.Move(mainEye.transform.forward * vert * Time.deltaTime * 10.0f + Physics.gravity);
-		transform.Rotate(0f, hori * 2f, 0f);
+		transform.Rotate(0f, hori, 0f);
+
+		if(rightEye.transform.parent == null && leftBlinder.enabled == rightBlinder.enabled) {
+			rightBlinder.enabled = true;
+			leftBlinder.enabled = false;
+			rightEye.GetComponent<Renderer>().enabled = true;
+			leftEye.GetComponent<Renderer>().enabled = true;
+		}
 
 		if(Input.GetKeyDown(KeyCode.Space) == true && rightEye.transform.parent == null) {
 			leftBlinder.enabled = !leftBlinder.enabled;
 			rightBlinder.enabled = !rightBlinder.enabled;
 			rightBlinder.GetComponentInChildren<Text>().enabled = false;
-
 		}
 
 		if ( Input.GetKeyDown(KeyCode.R) ) { // let user recenter camera if they want to
-			InputTracking.Recenter();
+			SceneManager.LoadScene(0);
 		}
 	}
 		

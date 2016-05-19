@@ -47,6 +47,8 @@ public class EyeballMovement : MonoBehaviour {
 				eyeball.GetComponent<Renderer>().enabled = true;
 			}
 			Vector3 startPos = transform.position;
+			Quaternion startRotation = transform.localRotation;
+			Quaternion targetRotation = Quaternion.Euler(new Vector3(0, 270, 0));
 			Image blinder = rightBlinder.GetComponentInChildren<Image>();
 			Color blinderColor = blinder.color;
 			Color targetColor = new Color(blinderColor.r, blinderColor.g, blinderColor.b, 1.0f);
@@ -54,11 +56,12 @@ public class EyeballMovement : MonoBehaviour {
 			float t = 0f;
 			while(t <= 1.0f) {
 				transform.position = Vector3.Lerp(startPos, targetPos, t);
+				transform.rotation = Quaternion.Slerp(startRotation, targetRotation, t);
 				blinder.color = Color.Lerp(blinderColor, targetColor, t * 3);
 				t += Time.deltaTime/eyeDropSpeed;
 				yield return null;
 			}
-			transform.rotation = Quaternion.Euler(0, 270, 0);
+			//transform.rotation = Quaternion.Euler(0, 270, 0);
 			transform.parent = null;
 			conveyorBelt = true;
 			currentVelocity = targetDir;
